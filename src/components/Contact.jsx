@@ -107,7 +107,7 @@ const Contact = () => {
                     </p>
                 </motion.div>
 
-                <div className="grid lg:grid-cols-2 gap-16 items-center">
+                <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
 
                     {/* Left Side: Illustration */}
                     <motion.div
@@ -115,7 +115,7 @@ const Contact = () => {
                         whileInView={{ opacity: 1, x: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.8 }}
-                        className="relative flex justify-center items-center"
+                        className="hidden lg:flex relative justify-center items-center"
                     >
                         {/* Enhanced Ambient Glow */}
                         <div className="absolute inset-0 bg-gradient-to-tr from-orange-500/20 to-purple-600/20 rounded-full blur-[120px] -z-10 animate-pulse" />
@@ -123,6 +123,7 @@ const Contact = () => {
                         <motion.img
                             src="/contact-new-3d.png"
                             alt="Contact Illustration"
+                            loading="lazy"
                             animate={{
                                 y: [0, -20, 0],
                                 rotate: [0, 1, -1, 0]
@@ -145,7 +146,7 @@ const Contact = () => {
                         className="bg-white/5 backdrop-blur-md p-8 rounded-3xl border border-white/10 shadow-2xl relative"
                     >
                         <form ref={formRef} onSubmit={handleSubmit} className="space-y-5">
-                            <div className="grid md:grid-cols-2 gap-5">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                                 <div className="space-y-2">
                                     <label className="text-sm font-medium text-gray-300 ml-1">Name</label>
                                     <input
@@ -172,7 +173,7 @@ const Contact = () => {
                                 </div>
                             </div>
 
-                            <div className="grid md:grid-cols-2 gap-5">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                                 <div className="space-y-2">
                                     <label className="text-sm font-medium text-gray-300 ml-1">Mobile Number</label>
                                     <input

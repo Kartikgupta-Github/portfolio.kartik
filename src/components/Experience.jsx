@@ -50,7 +50,7 @@ const Experience = () => {
                     Experience & <span className="text-orange-500">Education</span>
                 </motion.h2>
 
-                <div className="grid lg:grid-cols-2 gap-12 lg:gap-24">
+                <div className="grid lg:grid-cols-2 gap-8 lg:gap-24">
                     {/* Experience Column */}
                     <div>
                         <motion.div
@@ -65,7 +65,7 @@ const Experience = () => {
                             <h3 className="text-2xl font-bold text-white">Work History</h3>
                         </motion.div>
 
-                        <div className="space-y-8 ml-6 pl-8 py-2 relative">
+                        <div className="space-y-8 pl-8 md:ml-6 py-2 relative">
                             {experiences.map((exp, index) => (
                                 <motion.div
                                     key={index}
@@ -77,14 +77,14 @@ const Experience = () => {
                                     className="relative group h-full"
                                 >
                                     {/* Line */}
-                                    <div className="absolute -left-[40px] top-2 bottom-0 w-[2px] bg-white/10 group-last:bottom-auto group-last:h-full" />
+                                    <div className="absolute -left-[16px] md:-left-[40px] top-2 bottom-0 w-[2px] bg-white/10 group-last:bottom-auto group-last:h-full" />
 
                                     {/* Dot */}
                                     <motion.span
                                         variants={{
                                             hover: { top: "100%", y: "-100%", transition: { duration: 0.5, ease: "easeInOut" } }
                                         }}
-                                        className="absolute -left-[49px] top-2 h-5 w-5 rounded-full bg-zinc-900 border-4 border-orange-500 shadow-[0_0_10px_rgba(249,115,22,0.5)] z-10"
+                                        className="absolute -left-[25px] md:-left-[49px] top-2 h-5 w-5 rounded-full bg-zinc-900 border-4 border-orange-500 shadow-[0_0_10px_rgba(249,115,22,0.5)] z-10"
                                     />
 
                                     <div className="bg-white/5 border border-white/5 p-6 rounded-2xl hover:bg-white/10 transition-colors">
@@ -122,7 +122,7 @@ const Experience = () => {
                             <h3 className="text-2xl font-bold text-white">Education</h3>
                         </motion.div>
 
-                        <div className="space-y-8 ml-6 pl-8 py-2 relative">
+                        <div className="space-y-8 pl-8 md:ml-6 py-2 relative">
                             {education.map((edu, index) => (
                                 <motion.div
                                     key={index}
@@ -134,13 +134,13 @@ const Experience = () => {
                                     className="relative group h-full"
                                 >
                                     {/* Line */}
-                                    <div className="absolute -left-[40px] top-2 bottom-0 w-[2px] bg-white/10" />
+                                    <div className="absolute -left-[16px] md:-left-[40px] top-2 bottom-0 w-[2px] bg-white/10" />
 
                                     <motion.span
                                         variants={{
                                             hover: { top: "100%", y: "-100%", transition: { duration: 0.5, ease: "easeInOut" } }
                                         }}
-                                        className="absolute -left-[49px] top-2 h-5 w-5 rounded-full bg-zinc-900 border-4 border-gray-600 group-hover:border-white transition-colors z-10"
+                                        className="absolute -left-[25px] md:-left-[49px] top-2 h-5 w-5 rounded-full bg-zinc-900 border-4 border-gray-600 group-hover:border-white transition-colors z-10"
                                     />
 
                                     <div className="bg-white/5 border border-white/5 p-6 rounded-2xl hover:bg-white/10 transition-colors">

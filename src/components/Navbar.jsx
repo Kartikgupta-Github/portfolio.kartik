@@ -32,8 +32,8 @@ const Navbar = () => {
                     kartik<span className="text-orange-500">.</span>
                 </a>
 
-                {/* Desktop Menu */}
-                <div className="hidden md:flex items-center space-x-1 lg:space-x-8 bg-white/5 px-8 py-3 rounded-full border border-white/10 backdrop-blur-sm">
+                {/* Desktop Menu - Hidden on tablet/mobile, visible on large screens */}
+                <div className="hidden lg:flex items-center space-x-1 lg:space-x-8 bg-white/5 px-8 py-3 rounded-full border border-white/10 backdrop-blur-sm">
                     {navLinks.map((link) => (
                         <a
                             key={link.name}
@@ -45,7 +45,7 @@ const Navbar = () => {
                     ))}
                 </div>
 
-                <div className="hidden md:flex">
+                <div className="hidden lg:flex">
                     <a
                         href="#"
                         className="flex items-center gap-2 bg-transparent border border-orange-500 text-orange-500 px-6 py-2.5 rounded-full hover:bg-orange-500 hover:text-white transition-all duration-300 text-sm font-medium group"
@@ -55,12 +55,12 @@ const Navbar = () => {
                     </a>
                 </div>
 
-                {/* Mobile Toggle */}
+                {/* Mobile Toggle - Visible on tablet/mobile */}
                 <button
-                    className="md:hidden text-white"
+                    className="lg:hidden text-white p-2"
                     onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                 >
-                    {isMobileMenuOpen ? <X /> : <Menu />}
+                    {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
                 </button>
             </div>
 
@@ -71,14 +71,14 @@ const Navbar = () => {
                         initial={{ opacity: 0, height: 0 }}
                         animate={{ opacity: 1, height: 'auto' }}
                         exit={{ opacity: 0, height: 0 }}
-                        className="md:hidden bg-black/95 backdrop-blur-lg border-b border-white/10 overflow-hidden"
+                        className="lg:hidden bg-black/95 backdrop-blur-xl border-b border-white/10 overflow-hidden"
                     >
                         <div className="px-6 py-8 flex flex-col space-y-6">
                             {navLinks.map((link) => (
                                 <a
                                     key={link.name}
                                     href={link.href}
-                                    className="text-white/80 hover:text-white text-lg font-medium"
+                                    className="text-white/80 hover:text-white text-2xl font-medium block border-b border-white/5 pb-4"
                                     onClick={() => setIsMobileMenuOpen(false)}
                                 >
                                     {link.name}
@@ -86,9 +86,9 @@ const Navbar = () => {
                             ))}
                             <a
                                 href="#"
-                                className="text-orange-500 font-medium flex items-center gap-2"
+                                className="text-orange-500 font-medium text-lg flex items-center gap-3 pt-2"
                             >
-                                Download Resume
+                                Download Resume <Download className="w-5 h-5" />
                             </a>
                         </div>
                     </motion.div>

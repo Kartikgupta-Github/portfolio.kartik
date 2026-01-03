@@ -78,7 +78,7 @@ const Skills = () => {
                 </motion.div>
 
                 {/* Skills Grid */}
-                <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                     {skillCategories.map((category, index) => (
                         <motion.div
                             key={index}
@@ -89,7 +89,7 @@ const Skills = () => {
                             className={`
                                 relative p-8 rounded-3xl border border-white/10 backdrop-blur-md overflow-hidden group transition-all duration-300
                                 ${category.highlight
-                                    ? 'md:col-span-2 md:w-2/3 md:mx-auto bg-gradient-to-br from-white/5 to-orange-500/5 border-orange-500/20'
+                                    ? 'sm:col-span-2 lg:col-span-1 bg-gradient-to-br from-white/5 to-orange-500/5 border-orange-500/20'
                                     : 'bg-white/5 hover:bg-orange-500/10 hover:border-orange-500/30 hover:shadow-[0_0_30px_rgba(252,83,10,0.15)]'
                                 }
                             `}

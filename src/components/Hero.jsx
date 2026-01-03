@@ -73,14 +73,14 @@ const Hero = () => {
                         </motion.div>
                     </div>
 
-                    <h1 className="text-5xl md:text-7xl font-bold text-white leading-[1.1] mb-6">
+                    <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white leading-tight mb-6">
                         Full Stack <br />
                         <span className="text-transparent" style={{ WebkitTextStroke: "1px rgba(255, 255, 255, 0.5)" }}>
                             Developer
                         </span>
                     </h1>
 
-                    <p className="text-gray-400 text-lg max-w-lg leading-relaxed mb-8">
+                    <p className="text-gray-400 text-base md:text-lg max-w-lg leading-relaxed mb-8">
                         MCA (AI/ML) Scholar & Full Stack Developer with industrial experience. Specializing in Laravel, Python, and modern web technologies to build secure, scalable solutions.
                     </p>
 
@@ -115,7 +115,7 @@ const Hero = () => {
                                     Simplifying businesses through robust code. Focused on enhancing enterprise-level web applications.
                                 </p>
                                 <div className="flex items-center gap-3">
-                                    <img src="/avatar.png" alt="Kartik" className="w-10 h-10 rounded-full object-cover bg-orange-500/20" />
+                                    <img src="/avatar.png" alt="Kartik" className="w-10 h-10 rounded-full object-cover bg-orange-500/20" loading="lazy" />
                                     <div>
                                         <p className="text-white text-sm font-bold">Kartik Gupta</p>
                                         <p className="text-xs text-gray-400">MCA (AI/ML) Scholar.</p>
@@ -126,8 +126,8 @@ const Hero = () => {
                     </motion.div>
                 </motion.div>
 
-                {/* Right Visual */}
-                <div className="relative flex justify-center items-center h-[500px] md:h-[700px] order-1 lg:order-2">
+                {/* Right Visual - Hidden on mobile, visible on tablet+ */}
+                <div className="hidden md:flex relative justify-center items-center h-[500px] md:h-[700px] order-1 lg:order-2">
                     {/* Orbit Circles */}
                     <div className="absolute w-[350px] h-[350px] lg:w-[550px] lg:h-[550px] rounded-full border border-white/5" />
                     <div className="absolute w-[250px] h-[250px] lg:w-[380px] lg:h-[380px] rounded-full border border-white/5" />
@@ -144,6 +144,7 @@ const Hero = () => {
                             src="/avatar.png"
                             alt="Kartik"
                             className="w-full h-full object-contain drop-shadow-2xl mask-image-gradient"
+                            fetchPriority="high"
                         />
                     </motion.div>
 

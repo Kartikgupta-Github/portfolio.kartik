@@ -246,10 +246,10 @@ const Contact = () => {
             {/* Footer with Social Icons */}
             <div className="relative z-10 mt-20 border-t border-white/5 pt-10 pb-8 text-center">
                 <div className="flex justify-center gap-6 mb-8">
-                    <SocialLink href="https://www.linkedin.com/in/kartik-gupta30" icon={<Linkedin className="w-5 h-5" />} />
-                    <SocialLink href="https://github.com" icon={<Github className="w-5 h-5" />} />
-                    <SocialLink href="https://instagram.com" icon={<Instagram className="w-5 h-5" />} />
-                    <SocialLink href="https://youtube.com" icon={<Youtube className="w-5 h-5" />} />
+                    <SocialLink href="https://www.linkedin.com/in/kartik-gupta30/" icon={<Linkedin className="w-5 h-5" />} />
+                    <SocialLink href="https://github.com/Kartikgupta-Github" icon={<Github className="w-5 h-5" />} />
+                    <SocialLink href="https://www.instagram.com/invites/contact/?utm_source=ig_contact_invite&utm_medium=copy_link&utm_content=37jvhux" icon={<Instagram className="w-5 h-5" />} />
+                    <SocialLink href="https://www.youtube.com/@kartik.gupta30" icon={<Youtube className="w-5 h-5" />} />
                 </div>
                 <div className="text-gray-600 text-sm">
                     © 2025 Kartik Gupta. All rights reserved.

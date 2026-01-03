@@ -85,20 +85,22 @@ const Hero = () => {
                     </p>
 
                     <div className="flex flex-wrap gap-4 pt-2">
-                        <motion.button
+                        <motion.a
+                            href="#contact"
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
-                            className="bg-orange-500 text-white px-8 py-3 rounded-full font-medium hover:bg-orange-600 transition-colors shadow-lg shadow-orange-500/25"
+                            className="bg-orange-500 text-white px-8 py-3 rounded-full font-medium hover:bg-orange-600 transition-colors shadow-lg shadow-orange-500/25 cursor-pointer"
                         >
                             Hire Me
-                        </motion.button>
-                        <motion.button
+                        </motion.a>
+                        <motion.a
+                            href="#skills"
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
-                            className="bg-transparent border border-white/10 text-white px-8 py-3 rounded-full font-medium hover:bg-white/5 transition-colors"
+                            className="bg-transparent border border-white/10 text-white px-8 py-3 rounded-full font-medium hover:bg-white/5 transition-colors cursor-pointer"
                         >
                             View Work
-                        </motion.button>
+                        </motion.a>
                     </div>
 
                     {/* Floating Card */}

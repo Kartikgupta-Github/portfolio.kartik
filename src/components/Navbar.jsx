@@ -47,13 +47,15 @@ const Navbar = () => {
 
                 <div className="hidden lg:flex">
                     <a
-                        href="#"
+                        href="https://drive.google.com/file/d/1Gg1Eiz9j7FaLHLxRGffHFB3IJX12APau/view?usp=drive_link"
+                        target="_blank"
+                        rel="noopener noreferrer"
                         className="flex items-center gap-2 bg-transparent border border-orange-500 text-orange-500 px-6 py-2.5 rounded-full hover:bg-orange-500 hover:text-white transition-all duration-300 text-sm font-medium group"
                     >
                         <span>Download Resume</span>
                         <Download className="w-4 h-4 group-hover:translate-y-1 transition-transform" />
                     </a>
-                </div>
+                </div>HTML
 
                 {/* Mobile Toggle - Visible on tablet/mobile */}
                 <button
@@ -85,7 +87,9 @@ const Navbar = () => {
                                 </a>
                             ))}
                             <a
-                                href="#"
+                                href="https://drive.google.com/file/d/1Gg1Eiz9j7FaLHLxRGffHFB3IJX12APau/view?usp=drive_link"
+                                target="_blank"
+                                rel="noopener noreferrer"
                                 className="text-orange-500 font-medium text-lg flex items-center gap-3 pt-2"
                             >
                                 Download Resume <Download className="w-5 h-5" />

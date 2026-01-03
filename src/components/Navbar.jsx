@@ -55,7 +55,7 @@ const Navbar = () => {
                         <span>Download Resume</span>
                         <Download className="w-4 h-4 group-hover:translate-y-1 transition-transform" />
                     </a>
-                </div>HTML
+                </div>
 
                 {/* Mobile Toggle - Visible on tablet/mobile */}
                 <button

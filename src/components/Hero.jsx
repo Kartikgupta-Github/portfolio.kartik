@@ -53,7 +53,7 @@ const Hero = () => {
             <Lightning className="absolute top-20 -right-10 w-72 h-72 hidden md:block z-0 opacity-80 blur-[1px]" delay={0} />
             <Lightning className="absolute -bottom-20 -left-20 w-96 h-96 rotate-12 hidden md:block z-0 opacity-80 blur-[2px]" delay={1.5} />
 
-            <div className="container mx-auto px-6 md:px-24 lg:px-32 grid lg:grid-cols-2 gap-12 items-center relative z-10">
+            <div className="container mx-auto px-6 md:px-12 lg:px-32 grid lg:grid-cols-2 gap-12 items-center relative z-10">
                 {/* Left Content */}
                 <motion.div
                     initial={{ opacity: 0, x: -30 }}
@@ -73,7 +73,7 @@ const Hero = () => {
                         </motion.div>
                     </div>
 
-                    <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white leading-tight mb-6">
+                    <h1 className="text-4xl md:text-5xl lg:text-7xl font-bold text-white leading-tight mb-6">
                         Full Stack <br />
                         <span className="text-transparent" style={{ WebkitTextStroke: "1px rgba(255, 255, 255, 0.5)" }}>
                             Developer
@@ -103,12 +103,12 @@ const Hero = () => {
                         </motion.a>
                     </div>
 
-                    {/* Floating Card */}
+                    {/* Floating Card - Hidden on tablet to prevent overlap, visible on large screens */}
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.8, duration: 0.8 }}
-                        className="hidden md:block absolute bottom-20 left-10 lg:static lg:mt-12 p-5 bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 max-w-sm hover:-translate-y-1 transition-transform duration-300"
+                        className="hidden lg:block absolute bottom-20 left-10 lg:static lg:mt-12 p-5 bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 max-w-sm hover:-translate-y-1 transition-transform duration-300"
                     >
                         <div className="flex gap-4 items-start">
                             <div className="text-4xl text-orange-500 font-serif leading-4">“</div>
@@ -129,7 +129,7 @@ const Hero = () => {
                 </motion.div>
 
                 {/* Right Visual - Hidden on mobile, visible on tablet+ */}
-                <div className="hidden md:flex relative justify-center items-center h-[500px] md:h-[700px] order-1 lg:order-2">
+                <div className="hidden md:flex relative justify-center items-center h-[500px] lg:h-[700px] order-1 lg:order-2">
                     {/* Orbit Circles */}
                     <div className="absolute w-[350px] h-[350px] lg:w-[550px] lg:h-[550px] rounded-full border border-white/5" />
                     <div className="absolute w-[250px] h-[250px] lg:w-[380px] lg:h-[380px] rounded-full border border-white/5" />

@@ -27,7 +27,7 @@ const Navbar = () => {
             className={`fixed top-0 w-full z-50 transition-all duration-300 ${isScrolled ? 'bg-black/80 backdrop-blur-md py-4' : 'bg-transparent py-6'
                 }`}
         >
-            <div className="container mx-auto px-6 flex justify-between items-center">
+            <div className="container mx-auto px-6 md:px-12 lg:px-24 flex justify-between items-center">
                 <a href="#" className="text-2xl font-bold text-white tracking-wider">
                     kartik<span className="text-orange-500">.</span>
                 </a>

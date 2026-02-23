@@ -4,14 +4,14 @@ import { Mail, Send, Loader2, CheckCircle, X, AlertCircle, UserCheck } from 'luc
 import emailjs from '@emailjs/browser';
 
 // Consolidated Constants & Helpers
-import { EMAIL_REGEX } from '../constants';
+import { EMAIL_REGEX } from '../constants.js';
 import {
   getSubscribers,
   addSubscriber,
   isAlreadySubscribed,
   removeSubscriber,
   buildConfirmationMessage
-} from '../helpers';
+} from '../helpers.js';
 
 const Newsletter = () => {
   const [email, setEmail] = useState('');

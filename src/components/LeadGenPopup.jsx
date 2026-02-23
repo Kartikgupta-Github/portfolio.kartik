@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { X, Rocket } from 'lucide-react';
 
 // Consolidated Constants
-import { STORAGE_KEYS, COOLDOWN_MS } from '../constants';
+import { STORAGE_KEYS, COOLDOWN_MS } from '../constants.js';
 
 const LeadGenPopup = () => {
     const [isOpen, setIsOpen] = useState(false);

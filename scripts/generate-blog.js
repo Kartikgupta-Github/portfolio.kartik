@@ -104,19 +104,59 @@ async function generateSinglePost(article) {
     Output ONLY valid JSON: { "title": "...", "summary": "...", "tags": ["AI", "..."], "content": "..." }`;
 
     if (GEMINI_API_KEY) {
-        const res = await fetch(`${API_ENDPOINTS.GEMINI_GENERATE_CONTENT}?key=${GEMINI_API_KEY}`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                contents: [{ parts: [{ text: prompt }] }],
-                generationConfig: { temperature: 0.7, maxOutputTokens: 4096 },
-            }),
-        });
-        const data = await res.json();
-        const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
-        const jsonMatch = text.match(/\{[\s\S]*\}/);
-        return parseJSONSafe(jsonMatch[0]);
+        try {
+            const res = await fetch(`${API_ENDPOINTS.GEMINI_GENERATE_CONTENT}?key=${GEMINI_API_KEY}`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    contents: [{ parts: [{ text: prompt }] }],
+                    generationConfig: { temperature: 0.7, maxOutputTokens: 4096 },
+                }),
+            });
+            const data = await res.json();
+            const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
+
+            if (text) {
+                const jsonMatch = text.match(/\{[\s\S]*\}/);
+                if (jsonMatch) return parseJSONSafe(jsonMatch[0]);
+            } else {
+                console.warn("⚠️ Gemini returned no text, falling back to Groq if available.", data?.error?.message || '');
+            }
+        } catch (err) {
+            console.warn("⚠️ Gemini request failed, falling back to Groq if available.", err.message);
+        }
     }
+
+    if (GROQ_API_KEY) {
+        try {
+            const res = await fetch(API_ENDPOINTS.GROQ_CHAT_COMPLETIONS, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${GROQ_API_KEY}`
+                },
+                body: JSON.stringify({
+                    model: 'llama-3.3-70b-versatile',
+                    messages: [{ role: 'user', content: prompt }],
+                    temperature: 0.7,
+                    max_tokens: 4096,
+                }),
+            });
+            const data = await res.json();
+            const text = data.choices?.[0]?.message?.content;
+
+            if (text) {
+                const jsonMatch = text.match(/\{[\s\S]*\}/);
+                if (jsonMatch) return parseJSONSafe(jsonMatch[0]);
+            } else {
+                console.error("⚠️ Groq returned no text.", data);
+            }
+        } catch (err) {
+            console.error("⚠️ Groq request failed.", err.message);
+        }
+    }
+
+    return null;
 }
 
 // ── SAVING ───────────────────────────────────────────────────

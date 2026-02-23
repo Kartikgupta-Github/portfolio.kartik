@@ -1,4 +1,4 @@
-import { STORAGE_KEYS } from './constants';
+import { STORAGE_KEYS } from './constants.js';
 
 // --- Newsletter & Subscriber Helpers ---
 

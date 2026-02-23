@@ -1,0 +1,8 @@
+---
+title: "Wings, Wheels, and Woes: This Week in Tech and Science"
+date: "2026-02-18"
+tags: ["tech", "science", "news", "automotive", "food"]
+summary: "A judge weighs in on the boneless wing debate, while Nissan recalls hundreds of thousands of SUVs due to engine issues, highlighting the importance of clarity and safety in two very different industries"
+---
+
+This week, two seemingly unrelated news items caught our attention, one from the world of food and the other from the automotive industry. An Illinois judge has reignited the debate over whether boneless wings can truly be called wings, siding with Buffalo Wild Wings in a written opinion. Meanwhile, Nissan has issued a massive recall of over 642,000 Rogue SUVs due to potential engine issues, affecting the model's 1.5-liter VC Turbo engine. The boneless wing debate may seem like a trivial matter, but it speaks to the importance of clarity in labeling and advertising. On the other hand, the Nissan recall highlights the critical need for safety and reliability in the automotive industry. As we consider these two news items, it becomes clear that the principles of transparency and accountability are essential in both the food and automotive industries. Whether it's a matter of truth in labeling or ensuring the safety of consumers, companies must prioritize these values in order to maintain trust and credibility with their customers. The key takeaway from these stories is that clarity, safety, and accountability are essential in all industries, and companies must prioritize these values in order to succeed and maintain the trust of their customers.

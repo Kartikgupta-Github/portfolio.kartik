@@ -1,0 +1,148 @@
+[
+    {
+        "id": 1,
+        "name": "BookLens",
+        "tagline": "AI-powered book discovery using image recognition",
+        "status": "Completed",
+        "description": "BookLens is a smart book search application that scans a book title using image recognition or text input and instantly finds matching listings across online marketplaces. It eliminates manual searching and provides direct purchase links.",
+        "problem_solved": "Users often struggle to manually search books across multiple platforms. BookLens automates discovery and comparison in seconds.",
+        "core_features": [
+            "Book title detection via OCR or manual input",
+            "Marketplace search automation",
+            "Direct product redirection links",
+            "Clean and responsive UI"
+        ],
+        "tech_stack": [
+            "HTML",
+            "CSS",
+            "JavaScript",
+            "PHP",
+            "Laravel",
+            "MySQL",
+            "OCR API"
+        ],
+        "technical_highlights": [
+            "Implemented API-based search automation",
+            "Optimized backend response handling",
+            "Structured MVC architecture"
+        ],
+        "category": "AI / ML",
+        "image": "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&h=340&fit=crop&q=80"
+    },
+    {
+        "id": 2,
+        "name": "YouTubePlaylistToPDF Bot",
+        "tagline": "Telegram bot that converts YouTube playlists into structured PDFs",
+        "status": "Completed",
+        "description": "A Telegram bot that accepts a YouTube playlist or channel link and generates a structured PDF containing video titles and organized content for offline reference.",
+        "problem_solved": "Users cannot easily archive or organize YouTube playlists into offline readable formats. This bot converts dynamic playlist data into portable documentation.",
+        "core_features": [
+            "Telegram bot integration",
+            "YouTube playlist scraping",
+            "Automated PDF generation",
+            "Real-time processing and response"
+        ],
+        "tech_stack": [
+            "Python",
+            "YouTube Data API",
+            "FPDF",
+            "ReportLab",
+            "Telegram Bot API"
+        ],
+        "technical_highlights": [
+            "API-based data extraction",
+            "Automated document generation",
+            "Error handling for invalid links"
+        ],
+        "category": "Automation",
+        "image": "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?w=600&h=340&fit=crop&q=80"
+    },
+    {
+        "id": 3,
+        "name": "UddanPrice Tracker",
+        "tagline": "Automated flight price drop monitoring system",
+        "status": "Completed",
+        "description": "UddanPrice Tracker monitors flight prices and alerts users when a price drop occurs. It calculates the difference in price and provides multiple notification options including direct booking links.",
+        "problem_solved": "Flight prices fluctuate unpredictably, making manual tracking inefficient. This system automates monitoring and notifies users instantly.",
+        "core_features": [
+            "Scheduled price tracking",
+            "Price difference calculation",
+            "Multi-channel notification system",
+            "Direct redirection to booking page"
+        ],
+        "tech_stack": [
+            "Node.js",
+            "Python",
+            "MongoDB",
+            "Email API",
+            "Telegram Bot",
+            "Cloud"
+        ],
+        "technical_highlights": [
+            "Cron-based automation",
+            "Efficient database comparison logic",
+            "Scalable notification system"
+        ],
+        "category": "Automation",
+        "image": "https://images.unsplash.com/photo-1436491865332-7a61a109db05?w=600&h=340&fit=crop&q=80"
+    },
+    {
+        "id": 4,
+        "name": "Personal Portfolio",
+        "tagline": "Interactive full-stack developer portfolio with blog and AI chatbot",
+        "status": "Live",
+        "description": "A modern MERN-based portfolio website featuring dynamic certificate management, blog functionality, admin-controlled content updates, and an AI-powered chatbot assistant.",
+        "problem_solved": "Traditional portfolios are static and lack interaction. This portfolio provides dynamic content management and conversational engagement.",
+        "core_features": [
+            "MERN stack architecture",
+            "Admin-controlled CRUD for certificates",
+            "Blog publishing system",
+            "AI chatbot integration",
+            "Dark/light theme toggle"
+        ],
+        "tech_stack": [
+            "React",
+            "CSS",
+            "Node.js",
+            "Express",
+            "MongoDB",
+            "Vercel"
+        ],
+        "technical_highlights": [
+            "Full CRUD implementation",
+            "Conditional admin rendering logic",
+            "API-driven architecture",
+            "Component-based UI design"
+        ],
+        "category": "Full Stack",
+        "image": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&h=340&fit=crop&q=80"
+    },
+    {
+        "id": 5,
+        "name": "RentPe",
+        "tagline": "Next-generation rental management platform",
+        "status": "Under Development",
+        "description": "RentPe is a scalable rental management system designed to simplify property listing, tenant management, and payment tracking. Built with a strong backend architecture for real-world scalability.",
+        "problem_solved": "Rental management is often fragmented and manual. RentPe aims to centralize listings, tenant communication, and payment workflows into a single system.",
+        "core_features": [
+            "Property listing management",
+            "Tenant onboarding system",
+            "Payment tracking and history",
+            "Admin analytics dashboard"
+        ],
+        "tech_stack": [
+            "React",
+            "Node.js",
+            "Express",
+            "MongoDB",
+            "JWT"
+        ],
+        "technical_highlights": [
+            "Role-based authentication",
+            "Modular backend architecture",
+            "Scalable database schema design"
+        ],
+        "category": "Full Stack",
+        "image": "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=600&h=340&fit=crop&q=80"
+    }
+]

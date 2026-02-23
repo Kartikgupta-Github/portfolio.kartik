@@ -1,0 +1,36 @@
+name: 🤖 Auto Blog Generator
+
+on:
+  schedule:
+    - cron: '0 8 * * *' # Runs daily at 8:00 AM UTC
+  workflow_dispatch: # Allow manual trigger
+
+permissions:
+  contents: write
+
+jobs:
+  generate-blog:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 Checkout repo
+        uses: actions/checkout@v4
+
+      - name: 🟢 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: 📝 Generate Blog Post
+        env:
+          NEWS_API_KEY: ${{ secrets.NEWS_API_KEY }}
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: node scripts/generate-blog.js
+
+      - name: 📤 Commit and Push
+        run: |
+          git config user.name "Blog Bot"
+          git config user.email "bot@portfolio.dev"
+          git add content/blog/ src/data/blogs.json src/data/subscribers.json
+          git diff --cached --quiet || git commit -m "🤖 Auto-generated blog post [$(date '+%Y-%m-%d')]"
+          git push

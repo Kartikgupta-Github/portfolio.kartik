@@ -41,7 +41,7 @@ function loadBlogs() {
 
 async function fetchNews() {
     console.log('📰 Fetching news...');
-    const categories = ['technology', 'science', 'business'];
+    const categories = ['technology'];
     const allArticles = [];
 
     for (const category of categories) {
@@ -61,25 +61,45 @@ async function fetchNews() {
         } catch (err) { console.warn(`⚠️ Failed to fetch ${category}`); }
     }
 
+    const BLOCKED_KEYWORDS = ['perfume', 'beauty', 'fashion', 'celebrity', 'makeup',
+        'skincare', 'fragrance', 'sports', 'football', 'cricket', 'movie', 'film',
+        'music', 'album', 'recipe', 'food', 'travel', 'lifestyle', 'xbox game pass titles',
+        'new games', 'gaming deals'];
+
+    const filtered = allArticles.filter(a => {
+        const text = (a.title + ' ' + a.description).toLowerCase();
+        return !BLOCKED_KEYWORDS.some(kw => text.includes(kw));
+    });
+
     const seen = new Set();
-    return allArticles.filter(a => !seen.has(a.title) && seen.add(a.title));
+    return filtered.filter(a => !seen.has(a.title) && seen.add(a.title));
 }
 
 // ── LLM CURATION ─────────────────────────────────────────────
 
 async function curateArticles(articles, existingTitles) {
     console.log('🧠 Curation phase...');
-    const prompt = `You are curating tech news for a developer audience. Select TOP 2-4 stories.
-Prioritize in this order:
-1. Security breaches, zero-days, data leaks
-2. Major platform outages (GitHub, AWS, Google, etc.)
-3. Developer tools, AI updates, new frameworks
-4. Avoid: entertainment, politics, sports, celebrity news
+    const prompt = `You are a strict technical content curator for a developer portfolio blog.
+Your job is to ONLY select stories that a software developer would find professionally relevant.
 
-Already covered topics: ${existingTitles.slice(0, 5).join(', ')}
+ONLY select articles about:
+- Cybersecurity: breaches, CVEs, zero-days, malware, data leaks
+- Cloud/DevOps: AWS, Azure, GCP outages, Kubernetes, Docker updates
+- Developer tools: new frameworks, GitHub features, VS Code, CI/CD
+- AI/ML for developers: new models, APIs, tools like OpenAI, Anthropic, Hugging Face
+- Web/backend tech: Node.js, React, databases, APIs, browser updates
+- Big Tech infrastructure: platform outages affecting developers
+
+REJECT anything about: games, gaming, entertainment, beauty, fashion,
+sports, food, travel, celebrity news, consumer product reviews.
+
+If NO articles meet the criteria, return an empty array [].
+
+Already covered: ${existingTitles.slice(0, 5).join(', ')}
 Headlines:
-${articles.map((a, i) => `${i + 1}. "${a.title}"`).join('\n')}
-Respond with ONLY a JSON array of numbers e.g.: [2, 5]`;
+${articles.map((a, i) => `${i + 1}. [${a.category}] "${a.title}"`).join('\n')}
+
+Respond with ONLY a JSON array of numbers. If nothing qualifies return []. Example: [2, 5]`;
 
     try {
         const res = await fetch(API_ENDPOINTS.GROQ_CHAT_COMPLETIONS, {
@@ -89,7 +109,7 @@ Respond with ONLY a JSON array of numbers e.g.: [2, 5]`;
                 'Authorization': `Bearer ${GROQ_API_KEY}`
             },
             body: JSON.stringify({
-                model: 'llama3-8b-8192',
+                model: 'llama-3.3-70b-versatile',
                 messages: [{ role: 'user', content: prompt }],
                 temperature: 0.3,
                 max_tokens: 256,
@@ -98,34 +118,49 @@ Respond with ONLY a JSON array of numbers e.g.: [2, 5]`;
         const data = await res.json();
         const text = data.choices?.[0]?.message?.content;
         const match = text?.match(/\[[\d\s,]*\]/);
-        if (!match) return articles.slice(0, 2);
+        if (!match) return [];
         const indices = JSON.parse(match[0]);
         return indices.filter(i => i >= 1 && i <= articles.length).map(i => articles[i - 1]);
     } catch (err) {
-        console.warn('⚠️ Curation failed, using first 2 articles.', err.message);
-        return articles.slice(0, 2);
+        console.warn('⚠️ Curation failed.', err.message);
+        return [];
     }
 }
 
 // ── POST GENERATION ──────────────────────────────────────────
 
 async function generateSinglePost(article) {
-    const prompt = `Write a 800-1200 word blog post for: "${article.title}"
-Description: ${article.description}
+    const prompt = `You are a technical blogger writing for software developers.
+Write a 800-1200 word blog post about: "${article.title}"
+Context: ${article.description}
 
-TL;DR: One sentence summary at the very top.
+IMPORTANT RULES:
+- This must be genuinely useful to a developer, not a generic rewrite of the news
+- Do NOT use a fixed template with the same sections every time
+- Choose the section structure that best fits THIS specific article
+- Use a mix of: narrative paragraphs, code context where relevant, bullet points, numbered steps — whatever fits naturally
+- Write with a direct, opinionated developer voice — not corporate or neutral
+- The title must be rewritten to be specific and developer-focused, not just the original headline
 
-Sections:
-- Hook (no heading) - grab attention immediately
-- ## 🔍 What Happened?
-- ## ⚡ Why This Matters for Developers
-- ## 👨‍💻 Developer Perspective (how this affects your code, stack, or workflow)
-- ## ✅ Action Steps (numbered list, specific and actionable)
-- ## 🔮 Looking Ahead
-- ## ❓ FAQ (exactly 3 questions specific to this article, not generic)
+Available section types to pick from based on what fits the article
+(do NOT use all of them, pick 3-5 that make sense for this topic):
+- A strong hook paragraph (always include, no heading)
+- ## What Actually Happened (for news/incidents)
+- ## Why Developers Should Care
+- ## Technical Breakdown (for CVEs, outages, architecture topics)
+- ## What This Means for Your Stack
+- ## Action Steps (only if there are real specific actions to take)
+- ## The Bigger Picture
+- ## Quick FAQ (only 2-3 questions, only if genuinely useful)
 
-Output ONLY valid JSON:
-{ "title": "...", "summary": "...", "category": "Security|Coding|Technology|AI|DevOps|News", "tags": ["..."], "content": "..." }`;
+Output ONLY valid JSON with no markdown formatting outside the content field:
+{
+  "title": "rewritten developer-focused title",
+  "summary": "2 sentence summary",
+  "category": "Security|Coding|Technology|AI|DevOps|News",
+  "tags": ["tag1", "tag2"],
+  "content": "full markdown content here"
+}`;
 
     try {
         const res = await fetch(API_ENDPOINTS.GROQ_CHAT_COMPLETIONS, {
@@ -182,7 +217,9 @@ function savePosts(newPosts, existingBlogs) {
         const isoDate = now.toISOString();
         const slug = post.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
         const trimmed = slug.substring(0, 60);
-        const finalSlug = trimmed.endsWith('-') ? trimmed.slice(0, -1) : (slug.length > 60 ? trimmed.substring(0, trimmed.lastIndexOf('-')) : trimmed);
+        const finalSlug = slug.length > 60
+            ? trimmed.substring(0, trimmed.lastIndexOf('-'))
+            : trimmed;
 
         const markdown = `---\ntitle: "${post.title}"\ndate: "${isoDate}"\ntags: [${post.tags.map(t => `"${t}"`).join(', ')}]\nsummary: "${post.summary}"\n---\n\n${post.content}\n`;
         fs.writeFileSync(path.join(blogDir, `${isoDate.split('T')[0]}-${finalSlug}.md`), markdown);
@@ -248,6 +285,11 @@ async function main() {
         const allArticles = await fetchNews();
         const freshArticles = allArticles.filter(a => !isDuplicate(a.title, existingBlogs.map(b => b.title)));
         const curated = await curateArticles(freshArticles, existingBlogs.map(b => b.title));
+
+        if (!curated || curated.length === 0) {
+            console.log('⚠️ No relevant developer articles found today. Skipping post generation.');
+            return;
+        }
 
         const generated = [];
         for (const article of curated) {

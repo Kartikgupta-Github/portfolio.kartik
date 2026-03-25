@@ -1,0 +1,730 @@
+SAMSUNG NOTES
+REPLICA — PRODUCT REQUIREMENTS DOCUMENT
+Full Stack Feature Breakdown + Phase-by-Phase Build Prompts
+Version 1.0  |  Senior Engineer Edition  |  2025
+1. PRODUCT OVERVIEW
+Samsung Notes is a rich note-taking app exclusive to Samsung Galaxy devices. It combines handwriting, typed text, voice memos, sketching, and document annotation in a single unified interface. The app is heavily used by online educators, students, and professionals who need versatile note capture on Android. This PRD defines a complete, open-platform replica with full feature parity plus modern cross-platform export.
+1.1 Design Philosophy
+Minimal, clean UI — no clutter; ink-first UX
+Low-latency canvas rendering — feels like real pen on paper
+Works offline-first; cloud sync is additive, not required
+Modular architecture so features compose without coupling
+1.2 Target Users
+Online educators recording digital lessons with annotations
+Students taking class notes with mixed handwriting and text
+Business professionals reviewing and marking up PDFs
+Creatives needing sketch + text combination boards
+2. RECOMMENDED TECH STACK
+The stack is chosen for maximum canvas performance, cross-platform reach, and clean maintainability. It mirrors what a senior MAANG engineer would pick for a note-taking app at scale.
+2.1 Frontend (Android / Cross-Platform)
+Feature
+Description
+Priority
+Tech Approach
+Language
+Kotlin (Android native) or Flutter for cross-platform
+P0
+Kotlin preferred for low-latency input
+Canvas Engine
+Android Custom View + Canvas API
+P0
+Hardware-accelerated draw calls
+Handwriting
+Android Ink API (MotionEvent with pressure/tilt)
+P0
+Read pressure, size, tool type
+PDF Rendering
+PdfRenderer (Android 5+) or MuPDF library
+P0
+Tile-based rendering for memory
+Rich Text
+Jetpack Compose + custom spans or Slate.js (web)
+P1
+WYSIWYG inline editing
+State Management
+ViewModel + StateFlow + Repository pattern
+P0
+Clean MVVM/MVI
+DI
+Hilt (Dagger2 wrapper)
+P1
+Lifecycle-aware injection
+Media
+MediaRecorder API (voice), Coil (images)
+P1
+Audio + image handling
+2.2 Backend / Storage
+Feature
+Description
+Priority
+Tech Approach
+Local DB
+Room (SQLite wrapper)
+P0
+Notes, tags, folders metadata
+Binary Storage
+Internal file system + scoped storage
+P0
+Strokes, images, audio blobs
+Sync (Optional)
+Firebase Firestore + Firebase Storage
+P1
+Real-time conflict resolution
+Auth (Optional)
+Firebase Auth / Google Sign-In
+P2
+Multi-device support
+Search Index
+Room FTS4 (Full-Text Search)
+P1
+Fast keyword search in notes
+Export
+iTextPDF / Apache PDFBox for PDF gen
+P0
+Export to PDF/DOCX/PNG
+2.3 Key Libraries
+Feature
+Description
+Priority
+Tech Approach
+Ink Smoothing
+Catmull-Rom / Bezier spline fitting
+P0
+Removes jitter from strokes
+Undo/Redo
+Command Pattern stack
+P0
+Full history with memory cap
+Compression
+LZ4 / Zstd for stroke data
+P1
+Reduce storage footprint
+OCR (optional)
+ML Kit Text Recognition
+P2
+Handwriting to text
+Image Processing
+Glide/Coil + Android BitmapFactory
+P1
+Resize, crop, annotate
+Audio Waveform
+Visualizer API + custom view
+P2
+Visual playback timeline
+3. COMPLETE FEATURE BREAKDOWN
+3.1 Note List / Home Screen
+The entry point of the app. Displays all notes with smart organization, search, and quick actions.
+Feature
+Description
+Priority
+Tech Approach
+Grid / List Toggle
+Switch between card grid and compact list views
+P0
+RecyclerView + LayoutManager swap
+Note Thumbnail
+Shows first 3 lines of text or canvas preview
+P0
+Bitmap snapshot on save
+Sort Options
+Sort by date modified, created, title, custom
+P1
+Room ORDER BY clause
+Multi-Select
+Tap to select, bulk delete/move/share
+P0
+ActionMode + selection state
+Search Bar
+Real-time search with highlight in results
+P0
+Room FTS4 + Spannable
+Swipe Actions
+Swipe-to-delete or swipe-to-pin on list items
+P1
+ItemTouchHelper callback
+Long-press Preview
+Large preview popup without opening note
+P2
+Dialog with note snapshot
+Recent Notes
+Horizontally scrolling strip of 5 recent
+P1
+Separate query with LIMIT 5
+3.2 Folders &amp; Categories
+Organizational layer that lets users group notes like a file system, without deep nesting complexity.
+Feature
+Description
+Priority
+Tech Approach
+Create Folder
+Custom name, optional color/icon
+P0
+Folder entity in Room
+Drag to Move
+Long-press note, drag into folder in sidebar
+P1
+DragShadow + drop target highlight
+Nested Folders
+One level of subfolder only (keep it simple)
+P2
+Parent folder FK in schema
+Folder Count Badge
+Shows note count on each folder
+P0
+COUNT() GROUP BY query
+Smart Folders
+Auto-populated: Starred, Shared, Recently Deleted
+P1
+Filtered queries, not real folders
+Color Tags
+Tag notes with 8 color options
+P0
+Color field on Note entity
+3.3 Note Editor — Text Mode
+Full-featured rich text editing experience comparable to a mobile Google Docs lite.
+Feature
+Description
+Priority
+Tech Approach
+Bold / Italic / Underline
+Standard text formatting toolbar
+P0
+Spannable or WYSIWYG editor
+Heading Styles
+H1, H2, H3, body, caption styles
+P0
+ParagraphStyle + TextAppearance
+Bullet &amp; Numbered Lists
+Tap to toggle list, auto-indent on Enter
+P0
+Custom list span logic
+Checklist
+Checkbox items that can be toggled done/undone
+P0
+CheckboxSpan + click handler
+Text Color &amp; Highlight
+16-color picker for text + highlight bg
+P1
+ForegroundColorSpan + BackgroundColorSpan
+Font Size
+Slider or dropdown: 10–36pt
+P1
+AbsoluteSizeSpan
+Alignment
+Left, center, right, justify
+P1
+AlignmentSpan or Layout align
+Inline Code Block
+Monospace code snippet styling
+P2
+TypefaceSpan + bg color span
+Horizontal Rule
+Visual divider between sections
+P2
+LeadingMarginSpan or drawable
+Auto-link
+URLs and phone numbers auto-linked
+P1
+Linkify.addLinks()
+Word Count
+Live word + char count in toolbar
+P2
+TextWatcher on content
+3.4 Note Editor — Drawing / Handwriting Mode
+The crown jewel of Samsung Notes. This is the hardest part to get right — low latency stroke rendering is everything.
+Feature
+Description
+Priority
+Tech Approach
+Pen Tool
+Smooth freehand drawing with pressure simulation
+P0
+MotionEvent + Bezier fitting
+Highlighter Tool
+Semi-transparent wide stroke overlay
+P0
+Paint with alpha + blend mode
+Eraser Tool
+Per-stroke erase and pixel-level erase modes
+P0
+Stroke hit-testing or bitmap erase
+Shape Tool
+Freehand → auto-snap to circle/rect/line/arrow
+P1
+Shape recognition heuristic post-lift
+Lasso Select
+Draw selection boundary, move/scale/rotate content
+P1
+Path intersection + transform matrix
+Color Picker
+72-color palette + custom hex input + eyedropper
+P0
+HSV wheel or grid picker
+Stroke Width
+5 pressure levels or manual slider (0.5–20px)
+P0
+Paint.strokeWidth
+Opacity Control
+Per-tool opacity 10–100%
+P1
+Paint.alpha
+Undo / Redo
+Unlimited within session (50-step persistent)
+P0
+Command stack + serialize to disk
+Pressure Sensitivity
+Simulated pressure from MotionEvent.SIZE
+P0
+Map pressure to stroke width
+Palm Rejection
+Ignore large-area touch while stylus active
+P0
+SOURCE_STYLUS filter in onTouchEvent
+Infinite Canvas
+Pan/zoom beyond screen bounds
+P1
+Matrix transform + viewport clipping
+Canvas Background
+Blank, lined, grid, dotted, custom image
+P0
+Background bitmap or path drawing
+Layers (optional)
+Multiple drawing layers with opacity
+P2
+Layer stack with Bitmap per layer
+Ruler Tool
+Snap lines to virtual ruler angle
+P2
+Rotating overlay + angle snapping
+3.5 Mixed Mode (Text + Drawing on Same Page)
+This is what makes Samsung Notes unique — typed text and ink strokes coexist in the same scrollable document.
+Feature
+Description
+Priority
+Tech Approach
+Text Block Insert
+Tap to place text box on canvas at any position
+P0
+Absolute-positioned EditText overlay
+Ink Around Text
+Draw freely over or around text blocks
+P0
+Canvas renders above or below text layer
+Resize Text Block
+Drag handles to resize embedded text box
+P1
+Touch handle views + layout params update
+Convert Ink to Text
+ML Kit OCR converts selected strokes to text
+P2
+MLKit DigitalInk Recognition API
+Embedded Images
+Insert photos inline in mixed document
+P0
+ImageSpan or absolute positioned ImageView
+Reorder Blocks
+Drag blocks to reorder in document flow
+P1
+DragShadow + Z-order management
+3.6 Voice Memo / Audio Notes
+Record audio attached to a note, with timeline synced to writing if pen is active during recording.
+Feature
+Description
+Priority
+Tech Approach
+Record Audio
+Start/stop recording with waveform visualizer
+P0
+MediaRecorder + Visualizer API
+Inline Playback
+Play audio directly in note editor
+P0
+MediaPlayer + seek bar
+Synced Ink Replay
+Replay drawing strokes synced to audio timeline
+P2
+Timestamp strokes during recording
+Background Record
+Continue recording when app backgrounded
+P1
+Foreground Service + notification
+Audio Quality Setting
+Low/medium/high quality presets
+P1
+MediaRecorder.setAudioEncodingBitRate
+Waveform Scrub
+Tap on waveform to jump to position
+P1
+Touch position → time mapping
+3.7 PDF Annotation
+Import a PDF and annotate over it with ink, highlights, and text stamps — core workflow for educators.
+Feature
+Description
+Priority
+Tech Approach
+Import PDF
+Open PDF from device, Drive, or share intent
+P0
+Intent.ACTION_OPEN_DOCUMENT + PdfRenderer
+Page Tiles Rendering
+Lazy tile loading for large PDFs (memory safe)
+P0
+RecyclerView + tile bitmap cache
+Ink Overlay
+Draw strokes on transparent layer over PDF page
+P0
+SurfaceView overlay on PdfRenderer page
+Highlight Text
+Select and highlight PDF text regions
+P1
+PdfiumAndroid or PDFBox text bounds
+Text Stamp
+Drop text note at any PDF position
+P1
+Absolute positioned overlay EditText
+Sticky Note
+Pinned comment bubble on a page location
+P2
+Draggable bubble view + storage
+Export Annotated PDF
+Flatten annotations onto PDF and export
+P0
+iText or PDFBox write + flatten
+Page Navigation
+Thumbnail strip + swipe between pages
+P0
+RecyclerView horizontal scroll
+Zoom &amp; Pan
+Pinch zoom + two-finger pan per page
+P0
+ScaleGestureDetector + Matrix
+3.8 Image Handling
+Feature
+Description
+Priority
+Tech Approach
+Insert from Gallery
+Pick single/multi images from device gallery
+P0
+PhotoPicker / ContentResolver
+Insert from Camera
+Capture photo directly into note
+P0
+CameraX API
+Crop &amp; Resize
+Basic crop and proportional resize
+P1
+Android Image Cropping library
+Draw Over Image
+Annotate directly on inserted image
+P1
+Canvas overlay on image bitmap
+Image Caption
+Editable caption text below image
+P1
+EditText beneath image block
+Delete / Replace
+Tap image for action menu
+P0
+PopupMenu with contextual actions
+3.9 Search
+Feature
+Description
+Priority
+Tech Approach
+Full-Text Search
+Search across all note content instantly
+P0
+Room FTS4 virtual table
+Handwriting Search
+OCR index strokes for keyword matching
+P2
+ML Kit + index JSON
+Filter by Type
+Filter by note type, folder, tag, date range
+P1
+Compound WHERE clause builder
+Highlight Results
+Matched keywords highlighted in results list
+P1
+SpannableString with search term
+Search History
+Recent 10 queries stored for quick re-run
+P1
+SharedPreferences list
+3.10 Import / Export
+Critical for educators. Robust import/export is what makes or breaks this app.
+Feature
+Description
+Priority
+Tech Approach
+Export to PDF
+Full fidelity PDF with text + strokes + images
+P0
+iText7 or Android PrintManager
+Export to PNG/JPG
+Per-page or full note rasterization
+P0
+Bitmap.compress() → file
+Export to DOCX
+Text-only notes to Word format
+P1
+Apache POI XWPF or custom XML
+Export to .snote
+Proprietary format for backup/restore
+P1
+JSON/zip archive with assets
+Import .snote
+Restore from backup archive
+P1
+Unzip + parse + Room insert
+Import PDF
+See PDF Annotation section
+P0
+Already covered above
+Import Image
+JPG/PNG import as background or embedded
+P0
+ContentResolver + BitmapFactory
+Share via Intents
+Share as PDF/Image/Text to any Android app
+P0
+FileProvider + Intent.ACTION_SEND
+Google Drive Sync
+Optional backup to Drive
+P2
+Google Drive API v3
+Bulk Export
+Export multiple notes as a ZIP
+P1
+ZipOutputStream + FileProvider
+3.11 Security &amp; Locking
+Feature
+Description
+Priority
+Tech Approach
+Note Lock
+Lock individual note with PIN/password/biometric
+P1
+BiometricPrompt API
+Locked Note Indicator
+Lock icon on note card, blurred preview
+P1
+Custom thumbnail + overlay
+Secure Folder Integration
+Group locked notes in secure folder
+P2
+Keystore-encrypted storage
+Auto-lock Timeout
+Lock notes after X minutes inactive
+P2
+Handler delayed runnable
+3.12 Sync &amp; Backup
+Feature
+Description
+Priority
+Tech Approach
+Auto-save
+Save every keystroke with debounce (2s)
+P0
+ViewModel + debounced coroutine
+Cloud Backup
+Periodic full backup to Firebase/Drive
+P1
+WorkManager periodic task
+Conflict Resolution
+Last-write-wins with conflict flagging
+P1
+Timestamp comparison + merge UI
+Version History
+Last 10 versions of a note accessible
+P2
+Snapshot table in Room
+Restore Deleted
+Recently deleted folder, 30-day retention
+P0
+Soft-delete with expiry date field
+3.13 UI / UX Details
+These make the difference between a janky clone and a polished product.
+Feature
+Description
+Priority
+Tech Approach
+Dark / Light Theme
+System-aware + manual override
+P0
+MaterialTheme day/night
+Custom Accent Color
+User picks app accent from 8 presets
+P2
+Dynamic color via Material You
+Smooth Animations
+120fps-capable transitions for pen, swipe
+P0
+ValueAnimator / Lottie / RenderThread
+Haptic Feedback
+Subtle vibration on draw start, button tap
+P1
+VibrationEffect API
+Note Card Preview
+Live thumbnail updated on save
+P0
+Background Bitmap.createBitmap()
+Floating Action Button
+Context-aware FAB: new note / new drawing
+P0
+ExtendedFloatingActionButton
+Bottom Sheet Editor
+Note quick-edit from notification or widget
+P2
+BottomSheetDialog
+Home Screen Widget
+Quick note capture widget (1x2 or 2x2)
+P2
+AppWidgetProvider + RemoteViews
+Edge Panel
+Samsung Edge Panel shortcut (if Samsung)
+P3
+EdgeSinglePanel implementation
+4. DATA MODEL
+4.1 Core Entities (Room Schema)
+Note { id, title, content_text, folder_id, color_tag, created_at, updated_at, is_deleted, deleted_at, is_locked, is_pinned, has_drawing, has_audio, has_image, thumbnail_path }
+Folder { id, name, color, icon, parent_id, created_at }
+Stroke { id, note_id, page_index, path_data(JSON), color, width, opacity, tool_type, z_index, timestamp }
+AudioRecord { id, note_id, file_path, duration_ms, created_at, waveform_data(blob) }
+NoteImage { id, note_id, file_path, position_x, position_y, width, height, caption }
+Tag { id, name, color }  +  NoteTagCross { note_id, tag_id }
+DeletedNote { id, note_id, snapshot_json, deleted_at, expire_at }
+4.2 Stroke Data Format (JSON)
+{ &quot;points&quot;: [[x,y,p,t], ...], &quot;tool&quot;: &quot;pen|brush|marker|eraser&quot;, &quot;color&quot;: &quot;#FF0000&quot;, &quot;width&quot;: 3.5, &quot;opacity&quot;: 0.85, &quot;smoothed&quot;: true }
+Where p = pressure (0.0–1.0), t = timestamp offset in ms from recording start.
+5. ARCHITECTURE
+5.1 Clean Architecture Layers
+Presentation: Jetpack Compose / XML Views + ViewModels (MVVM)
+Domain: Use Cases (CreateNote, SearchNotes, ExportNote, etc.)
+Data: Repository implementations, Room DAOs, File Storage Manager
+Framework: Android OS APIs, Firebase, ML Kit adapters
+5.2 Canvas Architecture
+CanvasViewModel holds stroke list as StateFlow&lt;List&lt;Stroke&gt;&gt;
+Custom View consumes strokes and renders via Canvas.drawPath()
+OnTouchEvent feeds MotionEvent into StrokeProcessor
+StrokeProcessor applies Bezier smoothing then emits to ViewModel
+RenderThread offloads background layer; UI thread handles active stroke only
+Tiles cache: large canvas split into 512x512px tiles, only dirty tiles re-rendered
+5.3 Performance Targets
+Stroke render latency: &lt; 16ms (60fps) on mid-range device, &lt; 8ms (120fps) on flagship
+App cold start: &lt; 1.5 seconds
+Note open (text): &lt; 300ms
+PDF page render: &lt; 400ms for first page, lazy load rest
+Search results: &lt; 100ms for FTS query on 1000+ notes
+6. PHASE-BY-PHASE BUILD PLAN
+Use these phase descriptions as direct prompts for an AI coding IDE (like Cursor, Windsurf, or AntiGravity). Each phase is a self-contained vertical slice.
+PHASE 1: 
+FOUNDATION — Note List + Basic Text Editor
+Prompt for IDE:
+Build an Android app in Kotlin with MVVM architecture using Hilt for DI and Room for local storage. Create a Note entity with fields: id (UUID), title, content, created_at, updated_at, is_deleted (soft delete), color_tag, is_pinned. Implement NoteDao with CRUD + FTS4 search. Create NoteRepository. Build HomeScreen with RecyclerView showing note cards (grid/list toggle). Each card shows title, first 2 lines of content, date, color tag dot. Add FAB to create new note. NoteEditorActivity has a plain EditText for content with a title field. Auto-save on every text change with 2-second debounce using coroutines. Support undo/redo via EditText history. Add basic toolbar: Bold, Italic, Underline using SpannableStringBuilder. Include swipe-to-delete on list with soft-delete. Add a Recently Deleted screen that restores or permanently deletes after 30 days.
+PHASE 2: 
+ORGANIZATION — Folders, Tags, Search, Sort
+Prompt for IDE:
+Extend the Phase 1 app. Add a Folder entity (id, name, color, icon, parent_folder_id). Add a NavigationDrawer with folder list. Implement drag-and-drop to move notes into folders using ItemTouchHelper. Add color tag picker (8 colors) in note editor bottom sheet. Implement multi-select mode on long press (show checkboxes, bulk action toolbar: delete/move/tag/share). Add a search bar at top of HomeScreen using Room FTS4 — highlight matching terms in results with SpannableString. Add sort menu: by date modified, date created, title A-Z, color. Add Smart Folders: Starred (is_pinned=true), All Notes, Recently Deleted. Persist last used folder and sort preference in DataStore.
+PHASE 3: 
+DRAWING ENGINE — Handwriting + Sketching Canvas
+This is the hardest phase. Allocate the most time here.
+Prompt for IDE:
+Add a full drawing canvas to the app. Create a DrawingCanvasView (custom View). In onTouchEvent, collect MotionEvent MOVE points including getX, getY, and getPressure. Apply Catmull-Rom spline smoothing to convert raw points to a smooth Path. Render active stroke on UI thread in onDraw using Canvas.drawPath(). When stroke is lifted (ACTION_UP), commit it to a StrokeViewModel as an immutable Stroke object (color, width, path data serialized as JSON array of [x,y,pressure]). Support tools: Pen (round cap), Highlighter (square cap, 50% alpha, OVERLAY blend), Eraser (two modes: stroke-delete by hit-test, and bitmap erase). Add a tool picker bottom bar: pen, highlighter, eraser, shape, text. Color picker: 72-color grid. Width slider 0.5px to 20px. Opacity slider. Implement Undo/Redo via Command pattern (max 50 history items stored in a Deque; serialize to disk on exit). Add canvas background options: blank white, lined, grid, dotted (drawn as repeating paths, not images). Implement Palm Rejection: in onTouchEvent check event.getToolType() and ignore TOOL_TYPE_FINGER touches when last event from TOOL_TYPE_STYLUS was under 300ms. Add pinch-zoom and pan to the canvas using a Matrix transform — maintain a viewport Matrix applied in onDraw and transformed before hit-testing strokes.
+PHASE 4: 
+MIXED MODE — Text + Ink in Same Document
+Prompt for IDE:
+Implement a mixed note editor that combines a scrollable text editor and an ink canvas overlay. The document has pages. Each page has: a text layer (a custom EditText-derived view), an ink layer (DrawingCanvasView from Phase 3) positioned absolutely on top. User can toggle between text mode and draw mode via a floating toggle button. In text mode, touch events go to EditText; in draw mode, they go to the canvas. Support inserting image blocks inline: tap an image button, pick from gallery or camera (use CameraX), insert as a fixed-width ImageView within the document flow. Images can be resized by dragging corner handles (implement ResizableImageView). Allow adding floating text boxes on the canvas layer: tap in draw mode selects text tool, creates a draggable/resizable EditText overlay. Render the combined page (text + ink + images) to a single Bitmap for thumbnail generation (used on the note card) by calling View.draw() on each layer and compositing with Canvas.drawBitmap.
+PHASE 5: 
+PDF IMPORT + ANNOTATION
+Prompt for IDE:
+Implement PDF import and annotation. Use Android&apos;s PdfRenderer API to render PDF pages. Build a PdfViewerActivity with a vertical RecyclerView where each item is one page. Each page is rendered at 2x device pixel density using PdfRenderer.Page.render() into a Bitmap, displayed in an ImageView. Add a DrawingCanvasView overlay on top of each page view (from Phase 3). Annotations (strokes, text stamps) are stored per page in the database as Stroke objects with a page_index field. Support highlight mode: detect taps/drags over rendered text regions (use PDFBox Android port for text coordinate extraction), draw semi-transparent yellow rectangle overlays. Add a page thumbnail strip at bottom for navigation. Implement zoom + pan per page using PhotoView or a custom ScaleGestureDetector solution. Add Export Annotated PDF: use iText7 to open the original PDF, for each page get the annotation bitmap (render DrawingCanvasView to bitmap), overlay it as a transparent image layer on that page, then save to a new file. Provide Share intent for the exported PDF.
+PHASE 6: 
+VOICE MEMOS + AUDIO NOTES
+Prompt for IDE:
+Add voice memo capability. Create an AudioRecord entity. In the note editor, add a microphone FAB. Tapping starts recording using MediaRecorder (output format AAC, encoder AAC_ELD for quality). Show a recording bottom sheet with a live waveform visualizer (use AudioRecord + Visualizer API, draw bars in a custom View, animate with ValueAnimator at 30fps). Show elapsed time. Stop recording saves the file to app-internal storage and inserts AudioRecord row in Room. In the note editor, audio notes appear as a compact card showing waveform thumbnail, duration, play button. Playback uses MediaPlayer. Show a horizontal seek bar mapped to the waveform; tapping scrubs to that position. Run recording in a Foreground Service with a notification so it continues when app is backgrounded. Add delete action on audio card with confirmation dialog. Store waveform data (downsampled to 200 amplitude values) as a blob in AudioRecord for offline waveform rendering.
+PHASE 7: 
+IMPORT / EXPORT + SHARING
+Prompt for IDE:
+Implement comprehensive import/export. Export to PDF: use Android PrintManager with a custom PrintDocumentAdapter that renders each page (text layer + ink layer composited to bitmap) — this gives system-quality PDF. Export to PNG: call View.draw() on the composited note view, save as PNG via Bitmap.compress(). Export to plain text: strip formatting, save as .txt. Export to .snote backup format: create a ZIP archive (using ZipOutputStream) containing note metadata as note.json, stroke data as strokes.json, audio files, and image files. Import .snote: unzip, parse JSON, re-insert into Room, copy media files to internal storage. Bulk export: allow selecting multiple notes on HomeScreen, generate a ZIP of all their exports. Share intent: after export, use FileProvider to expose the file, then fire Intent.ACTION_SEND with correct MIME type so user can share to Drive/email/WhatsApp etc. Add a dedicated Export screen with format picker and destination picker (save to Downloads vs. share). Handle large exports in a WorkManager task with progress notification.
+PHASE 8: 
+SECURITY, POLISH, PERFORMANCE
+Prompt for IDE:
+Add final polish, security, and performance optimizations. Note Locking: add a lock toggle in note options menu. Locked notes show a lock icon on the card and a blurred thumbnail. Opening a locked note triggers BiometricPrompt (fingerprint/face/PIN fallback). Store a boolean is_locked in Room; encrypt the note content using Android Keystore AES-GCM with a note-specific key derived from the note ID. Dark/Light theme: implement full Material 3 theming with a dark and light variant. All colors defined in theme XML with night-mode equivalents. Home screen widget: implement a 2x2 AppWidget using RemoteViews showing recent 3 notes as text; tapping opens the note. Performance: profile with Android Profiler and fix any jank. Ensure DrawingCanvasView onDraw is called on RenderThread by using hardware layer. Implement lazy bitmap tile loading for large canvases. Add RecyclerView prefetch for note list. Use DiffUtil for all RecyclerView updates. Add a first-run onboarding walkthrough (3 screens using ViewPager2) explaining the 3 key modes: Text, Drawing, PDF.
+7. KEY API CONTRACTS
+7.1 NoteRepository Interface
+interface NoteRepository {
+  fun getAllNotes(folderId: String?): Flow&lt;List&lt;Note&gt;&gt;
+  suspend fun getNoteById(id: String): Note?
+  suspend fun createNote(note: Note): String  // returns id
+  suspend fun updateNote(note: Note)
+  suspend fun softDeleteNote(id: String)
+  suspend fun restoreNote(id: String)
+  suspend fun permanentlyDelete(id: String)
+  fun searchNotes(query: String): Flow&lt;List&lt;Note&gt;&gt;
+  suspend fun exportNote(id: String, format: ExportFormat): Uri
+}
+7.2 DrawingCanvasView Public API
+class DrawingCanvasView(context) : View(context) {
+  var activeTool: Tool  // PEN, HIGHLIGHTER, ERASER, SHAPE
+  var strokeColor: Int
+  var strokeWidth: Float
+  var strokeOpacity: Float
+  fun undo()
+  fun redo()
+  fun clear()
+  fun getStrokes(): List&lt;Stroke&gt;
+  fun loadStrokes(strokes: List&lt;Stroke&gt;)
+  fun toBitmap(): Bitmap
+  fun setBackground(type: CanvasBg)  // BLANK, LINED, GRID, DOT
+}
+8. TESTING STRATEGY
+8.1 Unit Tests
+StrokeProcessor: verify Bezier smoothing output for given point arrays
+NoteRepository: test CRUD operations with in-memory Room database
+ExportManager: verify PDF/ZIP output file validity
+CommandStack (undo/redo): verify state after mixed add/undo/redo sequences
+8.2 Integration Tests
+Full note create → save → search → retrieve round-trip
+PDF import → annotate → export → verify annotation presence in output
+Audio record → playback → delete lifecycle
+8.3 UI Tests (Espresso / Compose Test)
+Create a note, add text, draw a stroke, verify thumbnail updates
+Verify swipe-to-delete moves to Recently Deleted, restore returns it
+Verify search highlights correct terms in result
+Verify locked note blocks access without biometric
+9. KNOWN RISKS &amp; MITIGATIONS
+Feature
+Description
+Priority
+Tech Approach
+Canvas latency on mid-range
+Stroke feels laggy on budget phones
+P0
+RenderThread + tile caching + reduce Path complexity
+PDF memory crashes
+Large PDFs OOM on render
+P0
+Tile-based rendering + bitmap recycling
+Stroke data size bloat
+100-page drawing note can hit 50MB+
+P1
+LZ4 compression + stroke simplification (Douglas-Peucker)
+Palm rejection imperfect
+False rejects or false accepts with gloves
+P1
+Tune time threshold, add user toggle in settings
+Audio file management
+Long recordings fill storage
+P1
+Show storage usage warning, offer quality presets
+Export fidelity
+Fonts/strokes look different in exported PDF
+P1
+Test iText rendering vs. PrintManager, pick best
+Sync conflicts
+Two devices edit same note offline
+P2
+Timestamp-based LWW + manual merge UI fallback
+Samsung Notes Replica PRD  |  Senior Engineer Reference  |  v1.0  |  2025

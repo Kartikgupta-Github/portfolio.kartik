@@ -34,7 +34,7 @@ function HomePage() {
 function App() {
   return (
     <Router>
-      <div className="bg-[#0f0f0f] text-white min-h-screen selection:bg-orange-500/30">
+      <div className="bg-[#0f0f0f] text-white min-h-screen selection:bg-orange-500/30 overflow-x-hidden">
         <Navbar />
         <main className="relative z-0">
           <Routes>

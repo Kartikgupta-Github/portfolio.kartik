@@ -49,7 +49,7 @@ const services = [
 
 const Footer = () => {
     return (
-        <footer className="relative bg-[#0a0a0a] border-t border-white/5">
+        <footer className="relative bg-[#0a0a0a] border-t border-white/5 overflow-hidden">
             {/* Subtle top glow */}
             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[1px] bg-gradient-to-r from-transparent via-orange-500/40 to-transparent" />
 

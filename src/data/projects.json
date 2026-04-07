@@ -1,7 +1,7 @@
 [
     {
         "id": 1,
-        "name": "BookLens",
+        "name": "BookLens1",
         "tagline": "AI-powered book discovery using image recognition",
         "status": "Completed",
         "description": "BookLens is a smart book search application that scans a book title using image recognition or text input and instantly finds matching listings across online marketplaces. It eliminates manual searching and provides direct purchase links.",

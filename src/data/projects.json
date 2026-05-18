@@ -144,5 +144,87 @@
         ],
         "category": "Full Stack",
         "image": "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=600&h=340&fit=crop&q=80"
+    },
+    {
+        "id": 6,
+        "name": "AssigNova",
+        "tagline": "Task Progress and Role-Based Access Control Dashboard",
+        "status": "Under Development",
+        "description": "AssigNova is a task management dashboard focusing on robust RBAC and a flexible task progress tracker. It features an independent, toggle-based system where each step can be marked as complete or incomplete individually, allowing users to freely reverse their progress.",
+        "problem_solved": "Traditional task trackers are rigid and dependency-based. AssigNova provides a more flexible, non-linear task completion flow with fine-grained access control.",
+        "core_features": [
+            "Role-Based Access Control (RBAC)",
+            "Toggle-based independent task tracking",
+            "Flexible progress reversal",
+            "Modern React-based UI"
+        ],
+        "tech_stack": [
+            "React",
+            "TypeScript",
+            "Vite",
+            "Tailwind CSS"
+        ],
+        "technical_highlights": [
+            "Implemented custom authentication and authorization logic",
+            "Refactored sequential flows into independent toggle systems",
+            "Strict TypeScript typing for robust state management"
+        ],
+        "category": "Frontend",
+        "image": "https://images.unsplash.com/photo-1555421689-491a97ff2040?w=600&h=340&fit=crop&q=80"
+    },
+    {
+        "id": 7,
+        "name": "OpenSlate",
+        "tagline": "Next-generation PWA replica of Samsung Notes",
+        "status": "Under Development",
+        "description": "OpenSlate is a Progressive Web App (PWA) designed to replicate the core functionality of Samsung Notes. It features an interactive canvas powered by tldraw with support for multi-document imports including PDFs, Word documents, Excel sheets, and images.",
+        "problem_solved": "Users need a cross-platform, web-based digital whiteboard that supports importing and annotating diverse document formats natively.",
+        "core_features": [
+            "Infinite canvas drawing and annotation",
+            "Multi-document import (PDF, Word, Excel, Images)",
+            "PWA support for offline usage",
+            "Local storage persistence"
+        ],
+        "tech_stack": [
+            "Next.js",
+            "React",
+            "tldraw",
+            "Zustand",
+            "pdf.js",
+            "mammoth"
+        ],
+        "technical_highlights": [
+            "Integrated tldraw for a rich canvas experience",
+            "Built document parsing pipelines for complex formats",
+            "Optimized state management using Zustand"
+        ],
+        "category": "Full Stack",
+        "image": "https://images.unsplash.com/photo-1517842645767-c639042777db?w=600&h=340&fit=crop&q=80"
+    },
+    {
+        "id": 8,
+        "name": "Ticket Booking System",
+        "tagline": "High-concurrency Oracle SQL Ticket Booking Engine",
+        "status": "Completed",
+        "description": "A high-concurrency ticket booking backend demonstrating advanced database transaction and locking concepts, including pessimistic and optimistic locking, deadlock simulation, isolation levels, and rollback handling.",
+        "problem_solved": "Concurrent ticket bookings often lead to double booking or data corruption. This system ensures data integrity and consistency under high load using advanced database techniques.",
+        "core_features": [
+            "Parallel booking with FOR UPDATE SKIP LOCKED",
+            "Deadlock prevention and simulation",
+            "Optimistic locking using version columns",
+            "Auto-release timeout and waiting queues"
+        ],
+        "tech_stack": [
+            "Oracle Database",
+            "SQL*Plus",
+            "PL/SQL"
+        ],
+        "technical_highlights": [
+            "Implemented pessimistic and optimistic locking strategies",
+            "Analyzed READ COMMITTED vs SERIALIZABLE isolation levels",
+            "Developed robust failure and rollback handling procedures"
+        ],
+        "category": "Database",
+        "image": "https://images.unsplash.com/photo-1540331547168-8b6310f64d5c?w=600&h=340&fit=crop&q=80"
     }
 ]

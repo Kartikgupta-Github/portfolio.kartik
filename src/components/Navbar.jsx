@@ -117,7 +117,7 @@ const Navbar = () => {
 
                     {/* Resume Button */}
                     <a
-                        href="https://drive.google.com/file/d/1Gg1Eiz9j7FaLHLxRGffHFB3IJX12APau/view?usp=drive_link"
+                        href="https://drive.google.com/file/d/1ZPPJyxGFPzgrEUfyKy6fOVN7vwuneIKF/view?usp=sharing"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="flex items-center gap-2 bg-transparent border border-orange-500 text-orange-500 px-6 py-2.5 rounded-full hover:bg-orange-500 hover:text-white transition-all duration-300 text-sm font-medium group"
